@@ -13,12 +13,27 @@ const populateGameArray = (row, col, val) => {
   console.log(gameArr);
 };
 
+const checkForWinner = () => {
+  if (gameArr[0][0] == gameArr[1][1] && gameArr[0][0] == gameArr[2][2]) {
+    return gameArr[0][0];
+  }
+
+  return null;
+};
+
 const captureClick = (e) => {
+  e.stopPropagation();
+
+  let winner;
+
   const { row, column } = e.target.dataset;
   if (e.target.textContent == "X") e.target.textContent = "O";
   else e.target.textContent = "X";
 
   populateGameArray(row, column, e.target.textContent);
+  winner = checkForWinner(e.target.textContent);
+
+  if (winner) console.log(`Winner is `, winner);
 };
 
 const renderBoard = () => {
