@@ -138,13 +138,18 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
+button:hover:enabled {
   border-color: #646cff;
   background: rgba(100, 108, 255, 0.2);
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+button:disabled {
+  border: 1px solid transparent;
 }
 
 @media (prefers-color-scheme: light) {

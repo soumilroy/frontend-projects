@@ -2,6 +2,7 @@ import "./style.css";
 
 const ROWS_COLS_COUNT = 3;
 
+const board = document.querySelector(".board");
 const gameArr = Array(ROWS_COLS_COUNT)
   .fill(undefined)
   .map(() => Array(ROWS_COLS_COUNT).fill(undefined));
@@ -84,19 +85,27 @@ const checkForWinner = (symbol) => {
   return winner ? winner : null;
 };
 
+const freezeGame = (board) => {
+  const buttonList = Array.from(board.children);
+  buttonList.forEach((btn) => (btn.disabled = true));
+};
+
 const captureClick = (e) => {
   e.stopPropagation();
 
   let winner;
 
   const { row, column } = e.target.dataset;
-  if (e.target.textContent == "X") e.target.textContent = "O";
-  else e.target.textContent = "X";
+  if (e.target.textContent == "😀") e.target.textContent = "😈";
+  else e.target.textContent = "😀";
 
   populateGameArray(row, column, e.target.textContent);
   winner = checkForWinner(e.target.textContent);
 
-  if (winner) console.log(`Winner is `, winner);
+  if (winner) {
+    console.log(`Winner is `, winner);
+    freezeGame(document.querySelector(".board"));
+  }
 };
 
 const renderBoard = () => {
