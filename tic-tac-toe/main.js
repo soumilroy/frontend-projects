@@ -2,6 +2,10 @@ import "./style.css";
 
 const ROWS_COLS_COUNT = 3;
 
+let currentSymbol = "😀";
+let boxCount = ROWS_COLS_COUNT * ROWS_COLS_COUNT;
+let selectedBoxCount = 0;
+
 const gameArr = Array(ROWS_COLS_COUNT)
   .fill(undefined)
   .map(() => Array(ROWS_COLS_COUNT).fill(undefined));
@@ -12,11 +16,14 @@ const populateGameArray = (row, col, val) => {
   console.log(gameArr);
 };
 
-let currentSymbol = "😀";
-let boxCount = ROWS_COLS_COUNT * ROWS_COLS_COUNT;
-let selectedBoxCount = 0;
-
-const switchSymbols = () => {};
+const displayMessage = (message = "") => {
+  const infoHeading = document.createElement("h2");
+  infoHeading.innerText = message;
+  infoHeading.style.marginTop = "30px";
+  document
+    .querySelector(".board")
+    .insertAdjacentElement("afterend", infoHeading);
+};
 
 const checkForWinner = (symbol) => {
   let winner;
@@ -98,18 +105,9 @@ const freezeGame = (board) => {
 const captureClick = (e) => {
   e.stopPropagation();
 
-  if (selectedBoxCount === boxCount) {
-    freezeGame(document.querySelector(".board"));
-    return;
-  }
-
   let winner;
 
   const { row, column } = e.target.dataset;
-  // if (e.target.textContent == "😀") e.target.textContent = "😈";
-  // else e.target.textContent = "😀";
-
-  // if (e.target.textContent == "")
   e.target.textContent = currentSymbol;
 
   currentSymbol = currentSymbol == "😀" ? "😈" : "😀";
@@ -119,7 +117,15 @@ const captureClick = (e) => {
 
   if (winner) {
     console.log(`Winner is `, winner);
+    displayMessage(`Hurray!! The winner is ${winner}`);
     freezeGame(document.querySelector(".board"));
+    return;
+  }
+
+  if (selectedBoxCount === boxCount - 1) {
+    displayMessage(`Whoops!! Try again yo!`);
+    freezeGame(document.querySelector(".board"));
+    return;
   }
 
   selectedBoxCount++;
@@ -143,7 +149,7 @@ const renderBoard = () => {
 
 const setupGame = `
   <div>
-    <h1>Tic Tac Toe Game (Vanillajs)</h1>
+    <h1>Tic Tac Toe Game</h1>
     <p>by Soumil Roy</p>
     ${renderBoard()}
   </div>
