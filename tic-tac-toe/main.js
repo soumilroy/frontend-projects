@@ -2,7 +2,6 @@ import "./style.css";
 
 const ROWS_COLS_COUNT = 3;
 
-const board = document.querySelector(".board");
 const gameArr = Array(ROWS_COLS_COUNT)
   .fill(undefined)
   .map(() => Array(ROWS_COLS_COUNT).fill(undefined));
@@ -12,6 +11,12 @@ const populateGameArray = (row, col, val) => {
   console.log(`------ New array ------`);
   console.log(gameArr);
 };
+
+let currentSymbol = "😀";
+let boxCount = ROWS_COLS_COUNT * ROWS_COLS_COUNT;
+let selectedBoxCount = 0;
+
+const switchSymbols = () => {};
 
 const checkForWinner = (symbol) => {
   let winner;
@@ -93,11 +98,21 @@ const freezeGame = (board) => {
 const captureClick = (e) => {
   e.stopPropagation();
 
+  if (selectedBoxCount === boxCount) {
+    freezeGame(document.querySelector(".board"));
+    return;
+  }
+
   let winner;
 
   const { row, column } = e.target.dataset;
-  if (e.target.textContent == "😀") e.target.textContent = "😈";
-  else e.target.textContent = "😀";
+  // if (e.target.textContent == "😀") e.target.textContent = "😈";
+  // else e.target.textContent = "😀";
+
+  // if (e.target.textContent == "")
+  e.target.textContent = currentSymbol;
+
+  currentSymbol = currentSymbol == "😀" ? "😈" : "😀";
 
   populateGameArray(row, column, e.target.textContent);
   winner = checkForWinner(e.target.textContent);
@@ -106,6 +121,8 @@ const captureClick = (e) => {
     console.log(`Winner is `, winner);
     freezeGame(document.querySelector(".board"));
   }
+
+  selectedBoxCount++;
 };
 
 const renderBoard = () => {
