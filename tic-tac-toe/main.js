@@ -106,10 +106,15 @@ const captureClick = (e) => {
   e.stopPropagation();
 
   let winner;
-
   const { row, column } = e.target.dataset;
-  e.target.textContent = currentSymbol;
 
+  for (let i = 0; i < ROWS_COLS_COUNT; i++) {
+    console.log(gameArr[i]);
+  }
+
+  if (e.target.textContent) return;
+
+  e.target.textContent = currentSymbol;
   currentSymbol = currentSymbol == "😀" ? "😈" : "😀";
 
   populateGameArray(row, column, e.target.textContent);
