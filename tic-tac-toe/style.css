@@ -86,15 +86,16 @@ h2 {
 .board {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-gap: 2px;
   margin-top: 30px;
 }
 
 button {
   width: 100%;
-  height: 85px;
+  height: 100px;
   border: none;
   font-size: 2.4em;
-  background-color: #fafafa;
+  background-color: #b4cc1b25;
   cursor: pointer;
 }
 
@@ -120,11 +121,26 @@ p {
   margin-top: 10px;
 }
 
-p.playagain {
+button.playagain {
   font-size: 1.5em;
   cursor: pointer;
+  border: none;
+  background: #0b2999;
+  color: #fff;
+  height: auto;
+  width: auto;
+  padding: 10px 20px;
+  display: inline-block;
 }
 
-p.playgain:hover {
-  color: #8d9942;
+button.playagain:hover {
+  background-color: #ffd708;
+  color: #0b2999;
+}
+
+#audio {
+  display: inline-block;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
 }

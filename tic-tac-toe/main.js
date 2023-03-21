@@ -3,14 +3,23 @@ import { checkForWinner } from "./checkforwinner";
 
 document.addEventListener("DOMContentLoaded", () => {
   const ROWS_COLS_COUNT = 3;
-
   let currentSymbol = "😀";
   let boxCount = ROWS_COLS_COUNT * ROWS_COLS_COUNT;
   let selectedBoxCount = 0;
+  let audioEnabled = true;
 
   let gameArr = Array(ROWS_COLS_COUNT)
     .fill(undefined)
     .map(() => Array(ROWS_COLS_COUNT).fill(undefined));
+
+  const audioSelector = document.querySelector("#audio");
+  audioSelector.src = "on.svg";
+
+  audioSelector.addEventListener("click", () => {
+    audioEnabled = !audioEnabled;
+    audioSelector.src = audioEnabled ? "on.svg" : "off.svg";
+    if (audioEnabled) playSoundFile("sp_3.wav");
+  });
 
   const displayMessage = (message = "") => {
     const infoHeading = document.createElement("h2");
@@ -51,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const playAgain = () => {
-    const playAgainAlert = document.createElement("p");
+    const playAgainAlert = document.createElement("button");
     playAgainAlert.innerText = `Play again?`;
     playAgainAlert.style.marginTop = "30px";
     playAgainAlert.classList.add("playagain");
@@ -59,6 +68,20 @@ document.addEventListener("DOMContentLoaded", () => {
     document
       .querySelector(".message")
       .insertAdjacentElement("afterend", playAgainAlert);
+  };
+
+  const playSound = (symbol) => {
+    if (!audioEnabled) return;
+    const audio = document.createElement("audio");
+    audio.src = symbol == "😀" ? "sp_3.wav" : "sp_4.wav";
+    audio.play();
+  };
+
+  const playSoundFile = (file) => {
+    if (!audioEnabled) return;
+    const audio = document.createElement("audio");
+    audio.src = file;
+    audio.play();
   };
 
   const captureClick = (e) => {
@@ -70,6 +93,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target.textContent) return;
 
     e.target.textContent = currentSymbol;
+
+    playSound(currentSymbol);
     currentSymbol = currentSymbol == "😀" ? "😈" : "😀";
 
     gameArr[row][column] = e.target.textContent;
@@ -78,6 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (winner) {
       displayMessage(`${winner} wins!!`);
       freezeGame();
+      playSoundFile("kids_yeah.wav");
       playAgain();
       return;
     }
@@ -85,6 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (selectedBoxCount === boxCount - 1) {
       displayMessage(`Whoops!! Try again yo!`);
       freezeGame();
+      playSoundFile("sad.wav");
       playAgain();
       return;
     }
