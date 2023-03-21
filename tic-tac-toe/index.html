@@ -4,10 +4,36 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Zilla+Slab:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Tic Tac Toe by Soumil Roy</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <h1>Tic Tac Toe Game</h1>
+      <p>by <a href="https://soumilroy.com" target="_blank">Soumil Roy</a></p>
+      <div class="board">
+        <button data-row="0" data-column="0"></button>
+        <button data-row="0" data-column="1"></button>
+        <button data-row="0" data-column="2"></button>
+
+        <button data-row="1" data-column="0"></button>
+        <button data-row="1" data-column="1"></button>
+        <button data-row="1" data-column="2"></button>
+
+        <button data-row="2" data-column="0"></button>
+        <button data-row="2" data-column="1"></button>
+        <button data-row="2" data-column="2"></button>
+      </div>
+    </div>
     <script type="module" src="/main.js"></script>
   </body>
 </html>
