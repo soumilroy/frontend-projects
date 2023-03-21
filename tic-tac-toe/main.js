@@ -1,4 +1,5 @@
 import "./style.css";
+import { checkForWinner } from "./checkforwinner";
 
 const ROWS_COLS_COUNT = 3;
 
@@ -29,78 +30,6 @@ const displayMessage = (message = "") => {
 const removeMessage = () => {
   document.querySelector(".message").remove();
   document.querySelector(".playagain").remove();
-};
-
-const checkForWinner = (symbol) => {
-  let winner;
-
-  // Diagonals
-  if (
-    symbol == gameArr[0][0] &&
-    gameArr[0][0] == gameArr[1][1] &&
-    gameArr[0][0] == gameArr[2][2]
-  ) {
-    winner = gameArr[0][0];
-  }
-
-  if (
-    symbol == gameArr[0][2] &&
-    gameArr[0][2] == gameArr[1][1] &&
-    gameArr[0][2] == gameArr[2][0]
-  ) {
-    winner = gameArr[0][2];
-  }
-
-  // Rows
-  if (
-    symbol == gameArr[0][0] &&
-    gameArr[0][0] == gameArr[0][1] &&
-    gameArr[0][0] == gameArr[0][2]
-  ) {
-    winner = gameArr[0][0];
-  }
-
-  if (
-    symbol == gameArr[1][0] &&
-    gameArr[1][0] == gameArr[1][1] &&
-    gameArr[1][0] == gameArr[1][2]
-  ) {
-    winner = gameArr[1][0];
-  }
-
-  if (
-    symbol == gameArr[2][0] &&
-    gameArr[2][0] == gameArr[2][1] &&
-    gameArr[2][0] == gameArr[2][2]
-  ) {
-    winner = gameArr[2][0];
-  }
-
-  if (
-    symbol == gameArr[0][0] &&
-    gameArr[0][0] == gameArr[1][0] &&
-    gameArr[0][0] == gameArr[2][0]
-  ) {
-    winner = gameArr[0][0];
-  }
-
-  if (
-    symbol == gameArr[1][1] &&
-    gameArr[0][1] == gameArr[1][1] &&
-    gameArr[0][1] == gameArr[2][1]
-  ) {
-    winner = gameArr[0][1];
-  }
-
-  if (
-    symbol == gameArr[0][2] &&
-    gameArr[0][2] == gameArr[1][2] &&
-    gameArr[0][2] == gameArr[2][2]
-  ) {
-    winner = gameArr[0][2];
-  }
-
-  return winner ? winner : null;
 };
 
 const freezeGame = (board) => {
@@ -149,7 +78,7 @@ const captureClick = (e) => {
   currentSymbol = currentSymbol == "😀" ? "😈" : "😀";
 
   populateGameArray(row, column, e.target.textContent);
-  winner = checkForWinner(e.target.textContent);
+  winner = checkForWinner(e.target.textContent, gameArr);
 
   if (winner) {
     console.log(`Winner is `, winner);
