@@ -99,6 +99,7 @@ button {
   background-color: #b4cc1b25;
   border-radius: 8px;
   cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
 button:hover:enabled {

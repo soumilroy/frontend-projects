@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let boxCount = ROWS_COLS_COUNT * ROWS_COLS_COUNT;
   let selectedBoxCount = 0;
   let audioEnabled = true;
+  let timer;
 
   let gameArr = Array(ROWS_COLS_COUNT)
     .fill(undefined)
@@ -45,6 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const buttonList = Array.from(document.querySelectorAll(".board button"));
     buttonList.forEach((btn) => {
       btn.disabled = false;
+      btn.dataset.filled = "no";
       btn.textContent = "";
     });
   };
@@ -57,6 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
     gameArr = Array(ROWS_COLS_COUNT)
       .fill(undefined)
       .map(() => Array(ROWS_COLS_COUNT).fill(undefined));
+    timer = autoGameRunner();
   };
 
   const playAgain = () => {
@@ -84,6 +87,16 @@ document.addEventListener("DOMContentLoaded", () => {
     audio.play();
   };
 
+  const autoGameRunner = () => {
+    return setInterval(() => {
+      const buttonList = Array.from(
+        document.querySelectorAll("[data-filled='no']")
+      );
+      const randomIndex = Math.floor(Math.random() * buttonList.length);
+      buttonList[randomIndex].click();
+    }, 1000);
+  };
+
   const captureClick = (e) => {
     e.stopPropagation();
 
@@ -98,9 +111,11 @@ document.addEventListener("DOMContentLoaded", () => {
     currentSymbol = currentSymbol == "😀" ? "😈" : "😀";
 
     gameArr[row][column] = e.target.textContent;
+    e.target.dataset.filled = true;
     winner = checkForWinner(e.target.textContent, gameArr);
 
     if (winner) {
+      clearInterval(timer);
       displayMessage(`${winner} wins!!`);
       freezeGame();
       playSoundFile("kids_yeah.wav");
@@ -109,6 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (selectedBoxCount === boxCount - 1) {
+      clearInterval(timer);
       displayMessage(`Whoops!! Try again yo!`);
       freezeGame();
       playSoundFile("sad.wav");
@@ -120,4 +136,5 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   document.querySelector(".board").addEventListener("click", captureClick);
+  timer = autoGameRunner();
 });
