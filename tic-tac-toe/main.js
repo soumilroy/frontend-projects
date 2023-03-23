@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let boxCount = ROWS_COLS_COUNT * ROWS_COLS_COUNT;
   let selectedBoxCount = 0;
   let audioEnabled = true;
+  let autoplayEnabled = true;
   let timer;
 
   let gameArr = Array(ROWS_COLS_COUNT)
@@ -92,9 +93,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const buttonList = Array.from(
         document.querySelectorAll("[data-filled='no']")
       );
-      const randomIndex = Math.floor(Math.random() * buttonList.length);
-      buttonList[randomIndex].click();
-    }, 1000);
+      const randomIdx = Math.floor(Math.random() * buttonList.length);
+      buttonList[randomIdx].click();
+    }, 500);
   };
 
   const captureClick = (e) => {
@@ -136,5 +137,6 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   document.querySelector(".board").addEventListener("click", captureClick);
-  timer = autoGameRunner();
+
+  if (autoplayEnabled) timer = autoGameRunner();
 });
