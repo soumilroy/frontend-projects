@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let boxCount = ROWS_COLS_COUNT * ROWS_COLS_COUNT;
   let selectedBoxCount = 0;
   let audioEnabled = true;
-  let autoplayEnabled = true;
+  let autoplayEnabled = false;
   let timer;
 
   let gameArr = Array(ROWS_COLS_COUNT)
