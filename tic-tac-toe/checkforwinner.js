@@ -6,7 +6,7 @@ export const checkForWinner = (symbol, gameArr) => {
       gameArr[i][1] === symbol &&
       gameArr[i][2] === symbol
     ) {
-      return symbol;
+      return { symbol, row: i, column: null, diagonal: null };
     }
 
     if (
@@ -14,20 +14,25 @@ export const checkForWinner = (symbol, gameArr) => {
       gameArr[1][i] === symbol &&
       gameArr[2][i] === symbol
     ) {
-      return symbol;
+      return { symbol, row: null, column: i, diagonal: null };
     }
   }
 
   // Check diagonals
   if (
-    (gameArr[0][0] === symbol &&
-      gameArr[1][1] === symbol &&
-      gameArr[2][2] === symbol) ||
-    (gameArr[0][2] === symbol &&
-      gameArr[1][1] === symbol &&
-      gameArr[2][0] === symbol)
+    gameArr[0][0] === symbol &&
+    gameArr[1][1] === symbol &&
+    gameArr[2][2] === symbol
   ) {
-    return symbol;
+    return { symbol, row: null, column: null, diagonal: "left" };
+  }
+
+  if (
+    gameArr[0][2] === symbol &&
+    gameArr[1][1] === symbol &&
+    gameArr[2][0] === symbol
+  ) {
+    return { symbol, row: null, column: null, diagonal: "right" };
   }
 
   // No winner found

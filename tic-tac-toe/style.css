@@ -147,3 +147,7 @@ button.playagain:hover {
   width: 30px;
   height: 30px;
 }
+
+.winner {
+  background: #b4cc1b;
+}

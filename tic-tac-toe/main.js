@@ -23,6 +23,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (audioEnabled) playSoundFile("sp_3.wav");
   });
 
+  const fetchButtonList = () => {
+    return Array.from(document.querySelectorAll(".board button"));
+  };
+
   const displayMessage = (message = "") => {
     const infoHeading = document.createElement("h2");
     infoHeading.innerText = message;
@@ -39,16 +43,17 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const freezeGame = () => {
-    const buttonList = Array.from(document.querySelectorAll(".board button"));
+    const buttonList = fetchButtonList();
     buttonList.forEach((btn) => (btn.disabled = true));
   };
 
   const unfreezeGame = () => {
-    const buttonList = Array.from(document.querySelectorAll(".board button"));
+    const buttonList = fetchButtonList();
     buttonList.forEach((btn) => {
       btn.disabled = false;
       btn.dataset.filled = "no";
       btn.textContent = "";
+      btn.classList.contains("winner") && btn.classList.remove("winner");
     });
   };
 
@@ -95,7 +100,42 @@ document.addEventListener("DOMContentLoaded", () => {
       );
       const randomIdx = Math.floor(Math.random() * buttonList.length);
       buttonList[randomIdx].click();
-    }, 500);
+    }, 1000);
+  };
+
+  const markWinningBoxes = (winner) => {
+    const buttonList = fetchButtonList();
+    if (winner.row !== null) {
+      buttonList.forEach((btn) => {
+        if (btn.dataset.row == winner.row) btn.classList.add("winner");
+      });
+    }
+    if (winner.column !== null) {
+      buttonList.forEach((btn) => {
+        if (btn.dataset.column == winner.column) btn.classList.add("winner");
+      });
+    }
+    if (winner.diagonal !== null) {
+      setWinningDiagonal(winner.diagonal);
+    }
+  };
+
+  const setWinningDiagonal = (direction) => {
+    const buttonList = fetchButtonList();
+    if (direction == "left") {
+      buttonList.forEach((btn) => {
+        if (btn.dataset.row == btn.dataset.column) btn.classList.add("winner");
+      });
+    }
+    if (direction == "right") {
+      buttonList.forEach((btn) => {
+        if (
+          Number(btn.dataset.row) + Number(btn.dataset.column) ==
+          ROWS_COLS_COUNT - 1
+        )
+          btn.classList.add("winner");
+      });
+    }
   };
 
   const captureClick = (e) => {
@@ -117,7 +157,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (winner) {
       clearInterval(timer);
-      displayMessage(`${winner} wins!!`);
+      displayMessage(`${winner.symbol} wins!!`);
+      markWinningBoxes(winner);
       freezeGame();
       playSoundFile("kids_yeah.wav");
       playAgain();
