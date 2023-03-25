@@ -2,17 +2,17 @@ import "./style.css";
 import { checkForWinner } from "./checkforwinner";
 
 document.addEventListener("DOMContentLoaded", () => {
-  const ROWS_COLS_COUNT = 3;
-  let currentSymbol = "😀";
-  let boxCount = ROWS_COLS_COUNT * ROWS_COLS_COUNT;
-  let selectedBoxCount = 0;
-  let audioEnabled = true;
-  let autoplayEnabled = false;
-  let timer;
+  const ROWS_COLS_COUNT = 3,
+    boxCount = ROWS_COLS_COUNT * ROWS_COLS_COUNT;
 
-  let gameArr = Array(ROWS_COLS_COUNT)
-    .fill(undefined)
-    .map(() => Array(ROWS_COLS_COUNT).fill(undefined));
+  let currentSymbol = "😀",
+    selectedBoxCount = 0,
+    audioEnabled = true,
+    autoplayEnabled = true,
+    timer,
+    gameArr = Array(ROWS_COLS_COUNT)
+      .fill(undefined)
+      .map(() => Array(ROWS_COLS_COUNT).fill(undefined));
 
   const audioSelector = document.querySelector("#audio");
   audioSelector.src = "on.svg";
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const freezeGame = () => {
     const buttonList = fetchButtonList();
-    buttonList.forEach((btn) => (btn.disabled = true));
+    buttonList.forEach((btn) => btn.classList.add("no-click"));
   };
 
   const unfreezeGame = () => {
@@ -54,6 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.dataset.filled = "no";
       btn.textContent = "";
       btn.classList.contains("winner") && btn.classList.remove("winner");
+      btn.classList.contains("no-click") && btn.classList.remove("no-click");
     });
   };
 
@@ -65,18 +66,19 @@ document.addEventListener("DOMContentLoaded", () => {
     gameArr = Array(ROWS_COLS_COUNT)
       .fill(undefined)
       .map(() => Array(ROWS_COLS_COUNT).fill(undefined));
-    timer = autoGameRunner();
+
+    if (autoplayEnabled) timer = autoGameRunner();
   };
 
-  const playAgain = () => {
-    const playAgainAlert = document.createElement("button");
-    playAgainAlert.innerText = `Play again?`;
-    playAgainAlert.style.marginTop = "30px";
-    playAgainAlert.classList.add("playagain");
-    playAgainAlert.addEventListener("click", resetGame);
+  const gameStartFn = (btnText) => {
+    const gameStart = document.createElement("button");
+    gameStart.innerText = btnText;
+    gameStart.style.marginTop = "30px";
+    gameStart.classList.add("playagain");
+    gameStart.addEventListener("click", resetGame);
     document
       .querySelector(".message")
-      .insertAdjacentElement("afterend", playAgainAlert);
+      .insertAdjacentElement("afterend", gameStart);
   };
 
   const playSound = (symbol) => {
@@ -161,16 +163,16 @@ document.addEventListener("DOMContentLoaded", () => {
       markWinningBoxes(winner);
       freezeGame();
       playSoundFile("kids_yeah.wav");
-      playAgain();
+      gameStartFn("Play again?");
       return;
     }
 
     if (selectedBoxCount === boxCount - 1) {
       clearInterval(timer);
-      displayMessage(`Whoops!! Try again yo!`);
+      displayMessage(`Whoops!! Try again!`);
       freezeGame();
       playSoundFile("sad.wav");
-      playAgain();
+      gameStartFn("Play again?");
       return;
     }
 
@@ -179,5 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.querySelector(".board").addEventListener("click", captureClick);
 
-  if (autoplayEnabled) timer = autoGameRunner();
+  freezeGame();
+  displayMessage("Ahoy! Let's play!");
+  gameStartFn("Start game");
 });

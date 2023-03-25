@@ -151,3 +151,7 @@ button.playagain:hover {
 .winner {
   background: #b4cc1b;
 }
+
+.no-click {
+  pointer-events: none;
+}
