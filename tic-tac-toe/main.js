@@ -1,11 +1,28 @@
 import "./style.css";
 import { checkForWinner } from "./checkforwinner";
 
-document.addEventListener("DOMContentLoaded", () => {
-  const ROWS_COLS_COUNT = 3,
-    boxCount = ROWS_COLS_COUNT * ROWS_COLS_COUNT;
+const SYMBOLS = {
+  player1: "😀",
+  player2: "😈"
+};
 
-  let currentSymbol = "😀",
+const AUDIO_FILES = {
+  toggleOn: "sp_3.wav",
+  toggleOff: "sp_4.wav",
+  win: "kids_yeah.wav",
+  draw: "sad.wav"
+};
+
+const SVG_FILES = {
+  on: "on.svg",
+  off: "off.svg"
+};
+
+const ROWS_COLS_COUNT = 3,
+  boxCount = ROWS_COLS_COUNT * ROWS_COLS_COUNT;
+
+document.addEventListener("DOMContentLoaded", () => {
+  let currentSymbol = SYMBOLS.player1,
     selectedBoxCount = 0,
     audioEnabled = true,
     autoplayEnabled = true,
@@ -15,12 +32,12 @@ document.addEventListener("DOMContentLoaded", () => {
       .map(() => Array(ROWS_COLS_COUNT).fill(undefined));
 
   const audioSelector = document.querySelector("#audio");
-  audioSelector.src = "on.svg";
+  audioSelector.src = SVG_FILES.on;
 
   audioSelector.addEventListener("click", () => {
     audioEnabled = !audioEnabled;
-    audioSelector.src = audioEnabled ? "on.svg" : "off.svg";
-    if (audioEnabled) playSoundFile("sp_3.wav");
+    audioSelector.src = audioEnabled ? SVG_FILES.on : SVG_FILES.off;
+    if (audioEnabled) playSoundFile(AUDIO_FILES.toggleOn);
   });
 
   const fetchButtonList = () => {
@@ -84,7 +101,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const playSound = (symbol) => {
     if (!audioEnabled) return;
     const audio = document.createElement("audio");
-    audio.src = symbol == "😀" ? "sp_3.wav" : "sp_4.wav";
+    audio.src =
+      symbol == SYMBOLS.player1 ? AUDIO_FILES.toggleOn : AUDIO_FILES.toggleOff;
     audio.play();
   };
 
@@ -151,7 +169,8 @@ document.addEventListener("DOMContentLoaded", () => {
     e.target.textContent = currentSymbol;
 
     playSound(currentSymbol);
-    currentSymbol = currentSymbol == "😀" ? "😈" : "😀";
+    currentSymbol =
+      currentSymbol == SYMBOLS.player1 ? SYMBOLS.player2 : SYMBOLS.player1;
 
     gameArr[row][column] = e.target.textContent;
     e.target.dataset.filled = true;
@@ -162,7 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
       displayMessage(`${winner.symbol} wins!!`);
       markWinningBoxes(winner);
       freezeGame();
-      playSoundFile("kids_yeah.wav");
+      playSoundFile(AUDIO_FILES.win);
       gameStartFn("Play again?");
       return;
     }
@@ -171,7 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
       clearInterval(timer);
       displayMessage(`Whoops!! Try again!`);
       freezeGame();
-      playSoundFile("sad.wav");
+      playSoundFile(AUDIO_FILES.draw);
       gameStartFn("Play again?");
       return;
     }
