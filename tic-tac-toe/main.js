@@ -1,35 +1,35 @@
 import "./style.css";
 import { checkForWinner } from "./checkforwinner";
 
-const SYMBOLS = {
-  player1: "😀",
-  player2: "😈"
-};
-
-const AUDIO_FILES = {
-  toggleOn: "sp_3.wav",
-  toggleOff: "sp_4.wav",
-  win: "kids_yeah.wav",
-  draw: "sad.wav"
-};
-
-const SVG_FILES = {
-  on: "on.svg",
-  off: "off.svg"
-};
-
-const GAME_TEXT = {
-  startBtn: "Start Game",
-  resetBtn: "Play again?",
-  welcome: "Place your bets!",
-  tryAgain: "Whoops! Try again!",
-  winner: (symbol) => `${symbol} wins this game!`
-};
-
-const ROWS_COLS_COUNT = 3,
-  boxCount = ROWS_COLS_COUNT * ROWS_COLS_COUNT;
-
 document.addEventListener("DOMContentLoaded", () => {
+  const SYMBOLS = {
+    player1: "😀",
+    player2: "😈"
+  };
+
+  const AUDIO_FILES = {
+    toggleOn: "sp_3.wav",
+    toggleOff: "sp_4.wav",
+    win: "kids_yeah.wav",
+    draw: "sad.wav"
+  };
+
+  const SVG_FILES = {
+    on: "on.svg",
+    off: "off.svg"
+  };
+
+  const GAME_TEXT = {
+    startBtn: "Start Game",
+    resetBtn: "Play again?",
+    welcome: "Place your bets!",
+    tryAgain: "Whoops! Try again!",
+    winner: (symbol) => `${symbol} wins this game!`
+  };
+
+  const ROWS_COLS_COUNT = 3,
+    boxCount = ROWS_COLS_COUNT * ROWS_COLS_COUNT;
+
   let currentSymbol = SYMBOLS.player1,
     selectedBoxCount = 0,
     audioEnabled = true,
@@ -47,6 +47,28 @@ document.addEventListener("DOMContentLoaded", () => {
     audioSelector.src = audioEnabled ? SVG_FILES.on : SVG_FILES.off;
     if (audioEnabled) playSoundFile(AUDIO_FILES.toggleOn);
   });
+
+  const createButton = (row, column) => {
+    const button = document.createElement("button");
+    button.dataset.row = row;
+    button.dataset.column = column;
+    button.dataset.filled = "no";
+    return button;
+  };
+
+  const createGameBoard = (rows, cols) => {
+    const board = document.createElement("div");
+    board.className = "board";
+
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        const button = createButton(row, col);
+        board.appendChild(button);
+      }
+    }
+
+    return board;
+  };
 
   const fetchButtonList = () => {
     return Array.from(document.querySelectorAll(".board button"));
@@ -206,6 +228,9 @@ document.addEventListener("DOMContentLoaded", () => {
     selectedBoxCount++;
   };
 
+  document
+    .querySelector(".game")
+    .appendChild(createGameBoard(ROWS_COLS_COUNT, ROWS_COLS_COUNT));
   document.querySelector(".board").addEventListener("click", captureClick);
   displayMessage(GAME_TEXT.welcome);
   gameStartFn(GAME_TEXT.startBtn);
