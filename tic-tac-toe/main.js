@@ -18,6 +18,14 @@ const SVG_FILES = {
   off: "off.svg"
 };
 
+const GAME_TEXT = {
+  startBtn: "Start Game",
+  resetBtn: "Play again?",
+  welcome: "Place your bets!",
+  tryAgain: "Whoops! Try again!",
+  winner: (symbol) => `${symbol} wins this game!`
+};
+
 const ROWS_COLS_COUNT = 3,
   boxCount = ROWS_COLS_COUNT * ROWS_COLS_COUNT;
 
@@ -178,20 +186,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (winner) {
       clearInterval(timer);
-      displayMessage(`${winner.symbol} wins!!`);
-      markWinningBoxes(winner);
       freezeGame();
+      displayMessage(GAME_TEXT.winner(winner.symbol));
+      markWinningBoxes(winner);
       playSoundFile(AUDIO_FILES.win);
-      gameStartFn("Play again?");
+      gameStartFn(GAME_TEXT.resetBtn);
       return;
     }
 
     if (selectedBoxCount === boxCount - 1) {
       clearInterval(timer);
-      displayMessage(`Whoops!! Try again!`);
       freezeGame();
+      displayMessage(GAME_TEXT.tryAgain);
       playSoundFile(AUDIO_FILES.draw);
-      gameStartFn("Play again?");
+      gameStartFn(GAME_TEXT.resetBtn);
       return;
     }
 
@@ -199,8 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   document.querySelector(".board").addEventListener("click", captureClick);
-
+  displayMessage(GAME_TEXT.welcome);
+  gameStartFn(GAME_TEXT.startBtn);
   freezeGame();
-  displayMessage("Ahoy! Let's play!");
-  gameStartFn("Start game");
 });
