@@ -127,6 +127,11 @@ export const resetGame = (state) => {
   if (state.autoplayEnabled) state.timer = autoGameRunner();
 };
 
+// Switch play modes
+export const switchPlayModes = (state) => {
+  state.autoplayEnabled = state.autoplayEnabled ? false : true;
+};
+
 // Auto game play, set to run every MOVE_INTERVAL ms
 const autoGameRunner = () => {
   return setInterval(() => {

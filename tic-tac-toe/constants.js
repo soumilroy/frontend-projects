@@ -18,7 +18,7 @@ export const SVG_FILES = {
 export const GAME_TEXT = {
   startBtn: "Start Game",
   resetBtn: "Play again?",
-  welcome: "Place your bets!",
+  welcome: "Welcome!",
   tryAgain: "Whoops! Try again!",
   winner: (symbol) => `${symbol} wins this game!`
 };

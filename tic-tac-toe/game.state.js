@@ -6,7 +6,7 @@ export const initializeGame = () => {
     currentSymbol: SYMBOLS.player1,
     selectedBoxCount: 0,
     audioEnabled: true,
-    autoplayEnabled: true,
+    autoplayEnabled: false,
     timer: null,
     gameArr: Array(ROWS_COLS_COUNT)
       .fill(undefined)

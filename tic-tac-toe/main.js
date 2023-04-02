@@ -6,7 +6,8 @@ import {
   displayMessage,
   freezeGame,
   markWinningBoxes,
-  gameStartFn
+  gameStartFn,
+  switchPlayModes
 } from "./functions";
 import { initializeGame } from "./game.state";
 import { playAudio, setupAudio } from "./sound";
@@ -77,6 +78,11 @@ document.addEventListener("DOMContentLoaded", () => {
   document
     .querySelector(".board")
     .addEventListener("click", (e) => captureClick(state, e));
+
+  // Switch Play modes
+  document
+    .querySelector(".switch")
+    .addEventListener("click", () => switchPlayModes(state));
 
   // Welcome greeting
   displayMessage(GAME_TEXT.welcome);
