@@ -71,9 +71,9 @@ export const unfreezeGame = () => {
     btn.disabled = false;
     btn.dataset.filled = "no";
     btn.textContent = "";
-    btn.classList.contains("winner") && btn.classList.remove("winner");
-    btn.classList.contains("pop") && btn.classList.remove("pop");
-    btn.classList.contains("no-click") && btn.classList.remove("no-click");
+    btn.classList.remove("winner");
+    btn.classList.remove("pop");
+    btn.classList.remove("no-click");
   });
 };
 
