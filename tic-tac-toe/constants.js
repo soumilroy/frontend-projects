@@ -26,4 +26,4 @@ export const GAME_TEXT = {
 export const ROWS_COLS_COUNT = 3, // Each row/column count
   BOX_COUNT = ROWS_COLS_COUNT * ROWS_COLS_COUNT; // Total boxes
 
-export const MOVE_INTERVAL = 1000; // in milliseconds
+export const MOVE_INTERVAL = 700; // in milliseconds

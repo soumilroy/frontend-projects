@@ -17,7 +17,7 @@ const captureClick = (state, e) => {
   let winner;
   const { row, column } = e.target.dataset;
 
-  if (e.target.textContent) return;
+  if (!row || !column || e.target.textContent) return;
 
   e.target.textContent = state.currentSymbol;
 
@@ -32,6 +32,7 @@ const captureClick = (state, e) => {
 
   // Mark our box
   e.target.dataset.filled = true;
+  e.target.classList.add("pop");
 
   // We run checks for horizontal/vertical/diagonal symbol marked cells
   winner = checkForWinner(e.target.textContent, state.gameArr);

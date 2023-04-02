@@ -87,7 +87,7 @@ h2 {
 .board {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-gap: 4px;
+  grid-gap: 10px;
   margin-top: 30px;
 }
 
@@ -96,10 +96,10 @@ button {
   height: 100px;
   border: none;
   font-size: 2.4em;
-  background-color: #b4cc1b25;
-  border: 2px solid #b4cc1b;
+  background-color: #b4cc1b42;
+  /* border: 1px solid #b4cc1b; */
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.3s ease;
 }
 
 button:hover:enabled {
@@ -107,17 +107,28 @@ button:hover:enabled {
   background: #b4cc1b4f;
 }
 
-button > * {
-  display: inline;
-}
-
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: none;
 }
 
-button:disabled {
-  cursor: not-allowed;
+.pop {
+  animation: pop 0.2s ease-in;
+}
+
+@keyframes pop {
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
 }
 
 p {
@@ -150,6 +161,7 @@ button.playagain:hover {
 
 .winner {
   background: #b4cc1b;
+  animation: none;
 }
 
 .no-click {
