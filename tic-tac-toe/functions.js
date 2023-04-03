@@ -50,7 +50,11 @@ export const gameStartFn = (state, btnText) => {
   document
     .querySelector(".message")
     .insertAdjacentElement("afterend", gameStart);
-  // document.querySelector(".track-wrapper").style.display = "inline-block";
+
+  if (!state.autoplayEnabled) {
+    instantiateMouseTracker();
+    startFollowing(state);
+  }
 };
 
 // Remove message
@@ -128,31 +132,37 @@ export const resetGame = (state) => {
   if (state.autoplayEnabled) state.timer = autoGameRunner();
 };
 
-// Follow Mouse with Symbol
-// const mouseMovement = (state, mouseTrackWrapper, e) => {
-//   const { clientX, clientY } = e;
-//   mouseTrackWrapper.textContent = state.currentSymbol;
-//   mouseTrackWrapper.style.position = "absolute";
-//   mouseTrackWrapper.style.top = clientY - 50 + "px";
-//   mouseTrackWrapper.style.left = clientX - 50 + "px";
-// };
+const startFollowing = (state) => {
+  const mouseTrackWrapper = document.querySelector(".track-wrapper");
+
+  if (state.autoplayEnabled) {
+    mouseTrackWrapper.style.display = "none";
+    return;
+  }
+
+  mouseTrackWrapper.style.display = "inline-block";
+  document.querySelector("body").addEventListener("mousemove", (e) => {
+    const { clientX, clientY } = e;
+    mouseTrackWrapper.textContent = state.currentSymbol;
+    mouseTrackWrapper.style.position = "absolute";
+    mouseTrackWrapper.style.top = clientY - 60 + "px";
+    mouseTrackWrapper.style.left = clientX - 50 + "px";
+  });
+};
+
+const instantiateMouseTracker = () => {
+  const wrapper = document.createElement("div");
+  wrapper.classList.add("track-wrapper");
+  wrapper.style.position = "absolute";
+  wrapper.style.top = 0 + "px";
+  wrapper.style.left = 0 + "px";
+  document.querySelector("body").appendChild(wrapper);
+};
 
 // Switch play modes
 export const switchPlayModes = (state) => {
-  const mouseTrackWrapper = document.querySelector(".track-wrapper");
   state.autoplayEnabled = !state.autoplayEnabled;
-
-  // if (state.autoplayEnabled) {
-  //   mouseTrackWrapper.style.display = "none";
-  //   return;
-  // }
-
-  // mouseTrackWrapper.style.display = "inline-block";
-  // document
-  //   .querySelector("body")
-  //   .addEventListener("mousemove", (e) =>
-  //     mouseMovement(state, mouseTrackWrapper, e)
-  //   );
+  startFollowing(state);
 };
 
 // Auto game play, set to run every MOVE_INTERVAL ms
