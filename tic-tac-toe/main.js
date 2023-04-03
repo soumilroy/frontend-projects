@@ -62,12 +62,21 @@ const captureClick = (state, e) => {
   state.selectedBoxCount++;
 };
 
+// function instantiateMouseTracker() {
+//   const wrapper = document.createElement("div");
+//   wrapper.classList.add("track-wrapper");
+//   document.querySelector("body").appendChild(wrapper);
+// }
+
 document.addEventListener("DOMContentLoaded", () => {
   // Initialize game
   const state = initializeGame();
 
   // Setup audio
   setupAudio(state);
+
+  // Insert our little div into the body
+  // instantiateMouseTracker();
 
   // Create game board 3x3
   document

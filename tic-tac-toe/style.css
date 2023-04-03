@@ -17,6 +17,7 @@ body {
   font-weight: 400;
   font-family: "Zilla Slab", serif;
   line-height: 1.5;
+  position: relative;
 
   background-color: rgba(255, 255, 255, 0.87);
   background-image: url("groovepaper.png");
@@ -203,4 +204,8 @@ input[type="checkbox"]:checked + label::after {
   border: solid white;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
+}
+
+.track-wrapper {
+  font-size: 1.6rem;
 }

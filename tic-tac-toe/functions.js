@@ -50,6 +50,7 @@ export const gameStartFn = (state, btnText) => {
   document
     .querySelector(".message")
     .insertAdjacentElement("afterend", gameStart);
+  // document.querySelector(".track-wrapper").style.display = "inline-block";
 };
 
 // Remove message
@@ -127,9 +128,31 @@ export const resetGame = (state) => {
   if (state.autoplayEnabled) state.timer = autoGameRunner();
 };
 
+// Follow Mouse with Symbol
+// const mouseMovement = (state, mouseTrackWrapper, e) => {
+//   const { clientX, clientY } = e;
+//   mouseTrackWrapper.textContent = state.currentSymbol;
+//   mouseTrackWrapper.style.position = "absolute";
+//   mouseTrackWrapper.style.top = clientY - 50 + "px";
+//   mouseTrackWrapper.style.left = clientX - 50 + "px";
+// };
+
 // Switch play modes
 export const switchPlayModes = (state) => {
-  state.autoplayEnabled = state.autoplayEnabled ? false : true;
+  const mouseTrackWrapper = document.querySelector(".track-wrapper");
+  state.autoplayEnabled = !state.autoplayEnabled;
+
+  // if (state.autoplayEnabled) {
+  //   mouseTrackWrapper.style.display = "none";
+  //   return;
+  // }
+
+  // mouseTrackWrapper.style.display = "inline-block";
+  // document
+  //   .querySelector("body")
+  //   .addEventListener("mousemove", (e) =>
+  //     mouseMovement(state, mouseTrackWrapper, e)
+  //   );
 };
 
 // Auto game play, set to run every MOVE_INTERVAL ms
